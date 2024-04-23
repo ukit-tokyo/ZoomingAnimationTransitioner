@@ -44,6 +44,11 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     cell.set(thumb: nil, title: "title", subtitle: "subtitle")
     return cell
   }
+
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    let vc = DetailViewController()
+    present(vc, animated: true)
+  }
 }
 
 final class CardCell: UICollectionViewCell {
@@ -53,7 +58,6 @@ final class CardCell: UICollectionViewCell {
     imageView.contentMode = .scaleAspectFill
     imageView.layer.cornerRadius = 4
     imageView.layer.masksToBounds = true
-    imageView.clipsToBounds = true
     return imageView
   }()
   lazy var titleLabel = {
