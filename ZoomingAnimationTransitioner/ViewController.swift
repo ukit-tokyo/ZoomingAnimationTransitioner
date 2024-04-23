@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
-  private lazy var collectionView: UICollectionView = {
+  lazy var collectionView: UICollectionView = {
     let margin: CGFloat = 16
     let width = floor((UIScreen.main.bounds.width - margin * 3) / 2)
     let layout = UICollectionViewFlowLayout()
@@ -46,7 +46,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
   }
 
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    let transitioner = ZoomingAnimationTransitioner(present: true, selectedIndexPath: indexPath)
     let vc = DetailViewController()
+    vc.transitioningDelegate = transitioner
+    vc.modalPresentationStyle = .fullScreen
     present(vc, animated: true)
   }
 }

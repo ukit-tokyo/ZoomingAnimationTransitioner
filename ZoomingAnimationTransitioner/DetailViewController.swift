@@ -8,7 +8,7 @@
 import UIKit
 
 final class DetailViewController: UIViewController {
-  private lazy var imageView: UIImageView = {
+  lazy var imageView: UIImageView = {
     let imageView = UIImageView()
     imageView.backgroundColor = .gray
     imageView.contentMode = .scaleAspectFill

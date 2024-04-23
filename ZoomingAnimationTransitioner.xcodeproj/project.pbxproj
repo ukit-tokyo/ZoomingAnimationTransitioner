@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B62324632BD79CD300B43CDD /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62324622BD79CD300B43CDD /* DetailViewController.swift */; };
+		B62324652BD79E2500B43CDD /* ZoomingAnimationTransitioner.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62324642BD79E2500B43CDD /* ZoomingAnimationTransitioner.swift */; };
 		B64453432BD797F20049E02A /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = B64453422BD797F20049E02A /* SnapKit */; };
 		B64453452BD797F20049E02A /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = B64453442BD797F20049E02A /* SnapKit-Dynamic */; };
 		B6C55A522BD7976B00BA1396 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C55A512BD7976B00BA1396 /* AppDelegate.swift */; };
@@ -20,6 +21,7 @@
 
 /* Begin PBXFileReference section */
 		B62324622BD79CD300B43CDD /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		B62324642BD79E2500B43CDD /* ZoomingAnimationTransitioner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomingAnimationTransitioner.swift; sourceTree = "<group>"; };
 		B6C55A4E2BD7976B00BA1396 /* ZoomingAnimationTransitioner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZoomingAnimationTransitioner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6C55A512BD7976B00BA1396 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B6C55A532BD7976B00BA1396 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -66,6 +68,7 @@
 				B6C55A532BD7976B00BA1396 /* SceneDelegate.swift */,
 				B6C55A552BD7976B00BA1396 /* ViewController.swift */,
 				B62324622BD79CD300B43CDD /* DetailViewController.swift */,
+				B62324642BD79E2500B43CDD /* ZoomingAnimationTransitioner.swift */,
 				B6C55A572BD7976B00BA1396 /* Main.storyboard */,
 				B6C55A5A2BD7976C00BA1396 /* Assets.xcassets */,
 				B6C55A5C2BD7976C00BA1396 /* LaunchScreen.storyboard */,
@@ -152,6 +155,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B62324652BD79E2500B43CDD /* ZoomingAnimationTransitioner.swift in Sources */,
 				B6C55A562BD7976B00BA1396 /* ViewController.swift in Sources */,
 				B6C55A522BD7976B00BA1396 /* AppDelegate.swift in Sources */,
 				B6C55A542BD7976B00BA1396 /* SceneDelegate.swift in Sources */,
