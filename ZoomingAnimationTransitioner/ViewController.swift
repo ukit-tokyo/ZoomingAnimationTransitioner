@@ -46,7 +46,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
   }
 
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    let transitioner = ZoomingAnimationTransitioner(present: true, selectedIndexPath: indexPath)
+    let thumbnailView = (collectionView.cellForItem(at: indexPath) as! CardCell).thumbnailView
+    let transitioner = ZoomingAnimationTransitioner<DetailViewController>(present: true, from: thumbnailView)
     let vc = DetailViewController()
     vc.transitioningDelegate = transitioner
     vc.modalPresentationStyle = .fullScreen

@@ -28,3 +28,5 @@ final class DetailViewController: UIViewController {
     }
   }
 }
+
+extension DetailViewController: ZoomingAnimationTransitionable {}
