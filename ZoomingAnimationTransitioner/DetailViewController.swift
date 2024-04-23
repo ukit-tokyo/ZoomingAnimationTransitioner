@@ -15,6 +15,8 @@ final class DetailViewController: UIViewController {
     return imageView
   }()
 
+  private let interactionController = UIPercentDrivenInteractiveTransition()
+
   override func viewDidLoad() {
     super.viewDidLoad()
 
@@ -35,6 +37,31 @@ final class DetailViewController: UIViewController {
       make.top.equalTo(view.safeAreaLayoutGuide)
       make.left.right.equalToSuperview()
       make.height.equalTo(imageView.snp.width)
+    }
+
+    let recognizer = UIPanGestureRecognizer(target: self, action: #selector(handle(_:)))
+    view.addGestureRecognizer(recognizer)
+  }
+
+  @objc func handle(_ gesture: UIPanGestureRecognizer) {
+    let progress = gesture.translation(in: view).x / view.bounds.size.width
+    guard progress > 0 else { return }
+
+    print("testing___", progress)
+
+    switch gesture.state {
+    case .possible: break
+    case .began: break
+    case .changed:
+      interactionController.update(progress)
+    case .cancelled, .ended:
+      if progress > 0.5 {
+        interactionController.finish()
+      } else {
+        interactionController.cancel()
+      }
+    case .failed: break
+    @unknown default: break
     }
   }
 }

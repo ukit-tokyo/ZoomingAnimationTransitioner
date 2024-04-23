@@ -24,10 +24,10 @@
             </objects>
             <point key="canvasLocation" x="765.64885496183206" y="-16.197183098591552"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Zooming Animation Navigation Controller-->
         <scene sceneID="sUp-Ax-QQ5">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="AJD-nC-U4S" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="AJD-nC-U4S" customClass="ZoomingAnimationNavigationController" customModule="ZoomingAnimationTransitioner" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="9Mj-Sm-dXz">
                         <rect key="frame" x="0.0" y="59" width="393" height="44"/>

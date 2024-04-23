@@ -50,7 +50,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
   }
 
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//    let thumbnailView = (collectionView.cellForItem(at: indexPath) as! CardCell).thumbnailView
+    let thumbnailView = (collectionView.cellForItem(at: indexPath) as! CardCell).thumbnailView
 //    let vc = DetailViewController()
 //    self.transitioner = ZoomingAnimationTransitioner(from: thumbnailView, to: vc.imageView)
 //    let nc = UINavigationController(rootViewController: vc)
@@ -59,7 +59,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
 //    present(nc, animated: true)
 
     let vc = DetailViewController()
-    navigationController?.pushViewController(vc, animated: true)
+    let zoomingNavigationController = navigationController as? ZoomingAnimationNavigationController
+    zoomingNavigationController?.set(from: thumbnailView, to: vc.imageView)
+    zoomingNavigationController?.pushViewController(vc, animated: true)
   }
 }
 

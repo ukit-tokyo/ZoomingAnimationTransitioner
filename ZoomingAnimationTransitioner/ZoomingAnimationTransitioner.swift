@@ -8,7 +8,10 @@
 import UIKit
 
 final class ZoomingAnimationTransitioner: NSObject {
-  private var present: Bool = false
+  enum TransitionType {
+    case show, back
+  }
+  var transitionType: TransitionType = .back
   private weak var selectedImageView: UIImageView!
   private weak var detailImageView: UIImageView!
 
@@ -21,12 +24,12 @@ final class ZoomingAnimationTransitioner: NSObject {
 
 extension ZoomingAnimationTransitioner: UIViewControllerTransitioningDelegate {
   func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-    present = true
+    transitionType = .show
     return self
   }
 
   func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-    present = false
+    transitionType = .back
     return self
   }
 }
@@ -37,7 +40,7 @@ extension ZoomingAnimationTransitioner: UIViewControllerAnimatedTransitioning {
   }
   
   func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-    if present {
+    if transitionType == .show {
       presentTransition(transitionContext: transitionContext)
     } else {
       dismissTransition(transitionContext: transitionContext)
