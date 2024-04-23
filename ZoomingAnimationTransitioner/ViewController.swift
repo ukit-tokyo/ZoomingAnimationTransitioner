@@ -26,6 +26,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
   override func viewDidLoad() {
     super.viewDidLoad()
 
+    title = "Collection"
+
     collectionView.dataSource = self
     collectionView.delegate = self
     collectionView.register(CardCell.self, forCellWithReuseIdentifier: "CardCell")
@@ -48,19 +50,16 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
   }
 
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    let thumbnailView = (collectionView.cellForItem(at: indexPath) as! CardCell).thumbnailView
-    let vc = DetailViewController()
-    self.transitioner = ZoomingAnimationTransitioner(from: thumbnailView, to: vc.imageView)
-    let nc = UINavigationController(rootViewController: vc)
-    nc.transitioningDelegate = transitioner
-    nc.modalPresentationStyle = .fullScreen
-    present(nc, animated: true)
-
+//    let thumbnailView = (collectionView.cellForItem(at: indexPath) as! CardCell).thumbnailView
 //    let vc = DetailViewController()
 //    self.transitioner = ZoomingAnimationTransitioner(from: thumbnailView, to: vc.imageView)
-//    vc.transitioningDelegate = transitioner
-//    vc.modalPresentationStyle = .fullScreen
-//    present(vc, animated: true)
+//    let nc = UINavigationController(rootViewController: vc)
+//    nc.transitioningDelegate = transitioner
+//    nc.modalPresentationStyle = .fullScreen
+//    present(nc, animated: true)
+
+    let vc = DetailViewController()
+    navigationController?.pushViewController(vc, animated: true)
   }
 }
 

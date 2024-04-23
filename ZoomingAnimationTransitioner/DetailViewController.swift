@@ -21,7 +21,11 @@ final class DetailViewController: UIViewController {
     navigationItem.leftBarButtonItem = UIBarButtonItem(
       systemItem: .close,
       primaryAction: UIAction { [weak self] _ in
-        self?.dismiss(animated: true)
+        if self?.presentingViewController == nil {
+          self?.navigationController?.popViewController(animated: true)
+        } else {
+          self?.dismiss(animated: true)
+        }
       })
 
     view.backgroundColor = .orange
