@@ -7,6 +7,8 @@
 
 import UIKit
 
+protocol ZoomingAnimationDestinatable where Self: UIViewController {}
+
 final class ZoomingAnimationNavigationController: UINavigationController {
   private let zoomAnimationDelegate = ZoomingAnimationNavigationControllerDelegate()
 
@@ -36,6 +38,12 @@ final class ZoomingAnimationNavigationController: UINavigationController {
 final class ZoomingAnimationNavigationControllerDelegate: NSObject {
   weak var selectedImageView: UIImageView?
   weak var detailImageView: UIImageView?
+
+  private let backSwipeGesture: SwipeGestureRecognizer = {
+    let gesture = SwipeGestureRecognizer()
+    gesture.direction = .right
+    return gesture
+  }()
 }
 
 extension ZoomingAnimationNavigationControllerDelegate: UINavigationControllerDelegate {
@@ -56,12 +64,21 @@ extension ZoomingAnimationNavigationControllerDelegate: UINavigationControllerDe
     }
     return transitioner
   }
+
+  func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
+    let gestureRecognizers = viewController.view.gestureRecognizers ?? []
+    if viewController is ZoomingAnimationDestinatable, !gestureRecognizers.contains(backSwipeGesture) {
+      backSwipeGesture.navigationController = navigationController
+      backSwipeGesture.addTarget(self, action: #selector(handleSwipe(_:)))
+      viewController.view.addGestureRecognizer(backSwipeGesture)
+    }
+  }
+
+  @objc func handleSwipe(_ sender: SwipeGestureRecognizer) {
+    sender.navigationController?.popViewController(animated: true)
+  }
 }
 
-// MARK: -
-
-final class ZoomingInteractiveTransition: UIPercentDrivenInteractiveTransition {
-  @objc func handle(_ recognizer: UIPanGestureRecognizer) {
-
-  }
+final class SwipeGestureRecognizer: UISwipeGestureRecognizer {
+  weak var navigationController: UINavigationController?
 }

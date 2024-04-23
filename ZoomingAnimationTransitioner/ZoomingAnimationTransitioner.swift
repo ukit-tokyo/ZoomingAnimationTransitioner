@@ -66,7 +66,8 @@ extension ZoomingAnimationTransitioner: UIViewControllerAnimatedTransitioning {
     containerView.addSubview(animationView)
 
     var rect = containerView.convert(detailImageView.frame, from: detailImageView.superview)
-    if let navigationBarHeight = (toViewController as? UINavigationController)?.navigationBar.bounds.height,
+    let navigationController = (toViewController as? UINavigationController) ?? toViewController.navigationController
+    if let navigationBarHeight = navigationController?.navigationBar.bounds.height,
        let statusBarHeight = toViewController.view.window?.windowScene?.statusBarManager?.statusBarFrame.height {
       rect.origin.y += navigationBarHeight
       rect.origin.y += statusBarHeight
