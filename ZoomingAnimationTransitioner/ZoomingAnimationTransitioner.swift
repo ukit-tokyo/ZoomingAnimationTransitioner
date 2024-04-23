@@ -7,30 +7,31 @@
 
 import UIKit
 
-protocol ZoomingAnimationTransitionable where Self: UIViewController {
-  var imageView: UIImageView { get }
-}
+final class ZoomingAnimationTransitioner: NSObject {
+  private var present: Bool = false
+  private weak var selectedImageView: UIImageView!
+  private weak var detailImageView: UIImageView!
 
-final class ZoomingAnimationTransitioner<Presented: ZoomingAnimationTransitionable>:
-  NSObject, UIViewControllerTransitioningDelegate, UIViewControllerAnimatedTransitioning
-{
-  private let present: Bool
-  private let fromImageView: UIImageView
-
-  init(present: Bool, from fromImageView: UIImageView) {
-    self.present = present
-    self.fromImageView = fromImageView
+  init(from selectedImageView: UIImageView, to detailImageView: UIImageView) {
+    self.selectedImageView = selectedImageView
+    self.detailImageView = detailImageView
     super.init()
   }
+}
 
+extension ZoomingAnimationTransitioner: UIViewControllerTransitioningDelegate {
   func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    present = true
     return self
   }
 
   func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    present = false
     return self
   }
+}
 
+extension ZoomingAnimationTransitioner: UIViewControllerAnimatedTransitioning {
   func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
     0.5
   }
@@ -44,32 +45,37 @@ final class ZoomingAnimationTransitioner<Presented: ZoomingAnimationTransitionab
   }
 
   private func presentTransition(transitionContext: UIViewControllerContextTransitioning) {
-    let toViewController = transitionContext.viewController(forKey: .to) as! Presented
+    guard let toViewController = transitionContext.viewController(forKey: .to) else { return }
     let containerView = transitionContext.containerView
 
-    let animationView = UIImageView(image: fromImageView.image)
-    animationView.frame = containerView.convert(fromImageView.frame, from: fromImageView.superview)
+    let animationView = UIImageView(image: selectedImageView.image)
+    animationView.frame = containerView.convert(selectedImageView.frame, from: selectedImageView.superview)
     animationView.backgroundColor = .gray
-    fromImageView.alpha = 0
 
-    // 遷移先の VC を予め最後の位置まで移動させ非表示にする
     toViewController.view.frame = transitionContext.finalFrame(for: toViewController)
     toViewController.view.layoutIfNeeded()
     toViewController.view.alpha = 0
-    // アニメーションが完了するまで遷移先のImageViewは非表示にする
-    toViewController.imageView.isHidden = true
 
-    // 遷移中コンテナに、遷移後のビューと、アニメーション用のビューを追加する
+    selectedImageView.alpha = 0
+    detailImageView.alpha = 0
+
     containerView.addSubview(toViewController.view)
     containerView.addSubview(animationView)
 
-    let animation = UIViewPropertyAnimator(duration: transitionDuration(using: transitionContext), dampingRatio: 0.8) {
+    var rect = containerView.convert(detailImageView.frame, from: detailImageView.superview)
+    if let navigationBarHeight = (toViewController as? UINavigationController)?.navigationBar.bounds.height,
+       let statusBarHeight = toViewController.view.window?.windowScene?.statusBarManager?.statusBarFrame.height {
+      rect.origin.y += navigationBarHeight
+      rect.origin.y += statusBarHeight
+    }
+
+    let animation = UIViewPropertyAnimator(duration: transitionDuration(using: transitionContext), dampingRatio: 1.0) {
       toViewController.view.alpha = 1.0
-      animationView.frame = containerView.convert(toViewController.imageView.frame, from: toViewController.view)
+      animationView.frame = rect
     }
     animation.addCompletion { _ in
-      toViewController.imageView.isHidden = false
-      self.fromImageView.alpha = 1
+      self.detailImageView.alpha = 1
+      self.selectedImageView.alpha = 1
       animationView.removeFromSuperview()
       transitionContext.completeTransition(true)
     }
@@ -77,5 +83,31 @@ final class ZoomingAnimationTransitioner<Presented: ZoomingAnimationTransitionab
   }
 
   private func dismissTransition(transitionContext: UIViewControllerContextTransitioning) {
+    guard let toViewController = transitionContext.viewController(forKey: .to),
+          let fromViewController = transitionContext.viewController(forKey: .from) else { return }
+
+    let containerView = transitionContext.containerView
+
+    guard let animationView = detailImageView.snapshotView(afterScreenUpdates: false) else { return }
+    animationView.frame = containerView.convert(detailImageView.frame, from: detailImageView.superview)
+    animationView.backgroundColor = .gray
+
+    detailImageView.alpha = 0
+    selectedImageView.alpha = 0
+
+    containerView.insertSubview(toViewController.view, belowSubview: fromViewController.view)
+    containerView.addSubview(animationView)
+
+    let animation = UIViewPropertyAnimator(duration: transitionDuration(using: transitionContext), dampingRatio: 1.0) {
+      fromViewController.view.alpha = 0
+      animationView.frame = containerView.convert(self.selectedImageView.frame, from: self.selectedImageView.superview)
+    }
+    animation.addCompletion { _ in
+      self.detailImageView.alpha = 1
+      self.selectedImageView.alpha = 1
+      animationView.removeFromSuperview()
+      transitionContext.completeTransition(true)
+    }
+    animation.startAnimation()
   }
 }

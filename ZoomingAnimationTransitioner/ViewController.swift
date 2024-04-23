@@ -21,6 +21,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     return collectionView
   }()
 
+  private var transitioner: ZoomingAnimationTransitioner?
+
   override func viewDidLoad() {
     super.viewDidLoad()
 
@@ -47,18 +49,27 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
 
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     let thumbnailView = (collectionView.cellForItem(at: indexPath) as! CardCell).thumbnailView
-    let transitioner = ZoomingAnimationTransitioner<DetailViewController>(present: true, from: thumbnailView)
     let vc = DetailViewController()
-    vc.transitioningDelegate = transitioner
-    vc.modalPresentationStyle = .fullScreen
-    present(vc, animated: true)
+    self.transitioner = ZoomingAnimationTransitioner(from: thumbnailView, to: vc.imageView)
+    let nc = UINavigationController(rootViewController: vc)
+    nc.transitioningDelegate = transitioner
+    nc.modalPresentationStyle = .fullScreen
+    present(nc, animated: true)
+
+//    let vc = DetailViewController()
+//    self.transitioner = ZoomingAnimationTransitioner(from: thumbnailView, to: vc.imageView)
+//    vc.transitioningDelegate = transitioner
+//    vc.modalPresentationStyle = .fullScreen
+//    present(vc, animated: true)
   }
 }
+
+// MARK: -
 
 final class CardCell: UICollectionViewCell {
   lazy var thumbnailView: UIImageView = {
     let imageView = UIImageView()
-    imageView.backgroundColor = .gray.withAlphaComponent(0.3)
+    imageView.backgroundColor = .lightGray
     imageView.contentMode = .scaleAspectFill
     imageView.layer.cornerRadius = 4
     imageView.layer.masksToBounds = true

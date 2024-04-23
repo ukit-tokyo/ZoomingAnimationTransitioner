@@ -10,13 +10,19 @@ import UIKit
 final class DetailViewController: UIViewController {
   lazy var imageView: UIImageView = {
     let imageView = UIImageView()
-    imageView.backgroundColor = .gray
+    imageView.backgroundColor = .lightGray
     imageView.contentMode = .scaleAspectFill
     return imageView
   }()
 
   override func viewDidLoad() {
     super.viewDidLoad()
+
+    navigationItem.leftBarButtonItem = UIBarButtonItem(
+      systemItem: .close,
+      primaryAction: UIAction { [weak self] _ in
+        self?.dismiss(animated: true)
+      })
 
     view.backgroundColor = .orange
     view.addSubview(imageView)
@@ -28,5 +34,3 @@ final class DetailViewController: UIViewController {
     }
   }
 }
-
-extension DetailViewController: ZoomingAnimationTransitionable {}
