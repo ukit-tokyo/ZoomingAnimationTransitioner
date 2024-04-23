@@ -15,10 +15,10 @@ final class DetailViewController: UIViewController, ZoomingAnimationDestinatable
     return imageView
   }()
 
-  private let interactionController = UIPercentDrivenInteractiveTransition()
-
   override func viewDidLoad() {
     super.viewDidLoad()
+
+    title = "Detail"
 
     navigationItem.leftBarButtonItem = UIBarButtonItem(
       systemItem: .close,
