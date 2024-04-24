@@ -52,8 +52,8 @@ extension ZoomingAnimationTransitioner: UIViewControllerAnimatedTransitioning {
     let containerView = transitionContext.containerView
 
     let animationView = UIImageView(image: selectedImageView.image)
+    animationView.contentMode = selectedImageView.contentMode
     animationView.frame = containerView.convert(selectedImageView.frame, from: selectedImageView.superview)
-    animationView.backgroundColor = .gray
 
     toViewController.view.frame = transitionContext.finalFrame(for: toViewController)
     toViewController.view.layoutIfNeeded()

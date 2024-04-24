@@ -45,7 +45,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
 
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CardCell", for: indexPath) as! CardCell
-    cell.set(thumb: nil, title: "title", subtitle: "subtitle")
+    cell.set(thumb: UIImage(named: "new-york-city"), title: "title", subtitle: "subtitle")
     return cell
   }
 
